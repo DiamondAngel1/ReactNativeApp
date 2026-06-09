@@ -1,0 +1,8 @@
+D:\Git\React Native mobile\ReactNativeServer\ReactNative54Server\WebApiReactNative\WebApiReactNative\obj\Debug\net9.0\WebApiReactNative.csproj.AssemblyReference.cache
+D:\Git\React Native mobile\ReactNativeServer\ReactNative54Server\WebApiReactNative\WebApiReactNative\obj\Debug\net9.0\WebApiReactNative.GeneratedMSBuildEditorConfig.editorconfig
+D:\Git\React Native mobile\ReactNativeServer\ReactNative54Server\WebApiReactNative\WebApiReactNative\obj\Debug\net9.0\WebApiReactNative.AssemblyInfoInputs.cache
+D:\Git\React Native mobile\ReactNativeServer\ReactNative54Server\WebApiReactNative\WebApiReactNative\obj\Debug\net9.0\WebApiReactNative.AssemblyInfo.cs
+D:\Git\React Native mobile\ReactNativeServer\ReactNative54Server\WebApiReactNative\WebApiReactNative\obj\Debug\net9.0\WebApiReactNative.csproj.CoreCompileInputs.cache
+D:\Git\React Native mobile\ReactNativeServer\ReactNative54Server\WebApiReactNative\WebApiReactNative\obj\Debug\net9.0\WebApiReactNative.MvcApplicationPartsAssemblyInfo.cs
+D:\Git\React Native mobile\ReactNativeServer\ReactNative54Server\WebApiReactNative\WebApiReactNative\obj\Debug\net9.0\WebApiReactNative.MvcApplicationPartsAssemblyInfo.cache
+D:\Git\React Native mobile\ReactNativeServer\ReactNative54Server\WebApiReactNative\WebApiReactNative\obj\Debug\net9.0\rpswa.dswa.cache.json
