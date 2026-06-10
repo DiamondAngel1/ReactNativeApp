@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using WebApiReactNative.Mapper;
 using WebApiReactNative.Entities.Identity;
 using WebApiReactNative.Interfaces;
-using WebApiReactNative.Mapper;
 using WebApiReactNative.Models.Account;
-using WebApiReactNative.Services;
 
 namespace WebApiReactNative.Controllers
 {
@@ -55,5 +55,15 @@ namespace WebApiReactNative.Controllers
             return BadRequest(result);
         }
 
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Me()
+        {
+            var email = User.Claims.First()?.Value;
+            var user = await userManager.FindByEmailAsync(email);
+            MeModel me = userMapper.UserToMeModel(user);
+            return Ok(me);
+
+        }
     }
 }

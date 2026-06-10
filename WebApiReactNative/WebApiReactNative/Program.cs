@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi;
 using WebApiReactNative;
 using WebApiReactNative.Data;
 using WebApiReactNative.Entities.Identity;
@@ -56,11 +57,50 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-builder.Services.AddOpenApi();
+builder.Services.AddOpenApi(options =>
+{
+    options.AddDocumentTransformer((document, context, cancellationToken) =>
+    {
+        document.Components ??= new OpenApiComponents();
+        document.Components.SecuritySchemes ??= new Dictionary<string, IOpenApiSecurityScheme>();
+
+        document.Components.SecuritySchemes["Bearer"] = new OpenApiSecurityScheme
+        {
+            Type = SecuritySchemeType.Http,
+            Scheme = "bearer",
+            BearerFormat = "JWT",
+            In = ParameterLocation.Header,
+            Name = "Authorization",
+            Description = "JWT Authorization header using the Bearer scheme. Example: \"Bearer {token}\""
+        };
+
+        document.Security = [
+            new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecuritySchemeReference("Bearer"),
+                    []
+                }
+            }
+        ];
+
+        document.SetReferenceHostDocument();
+
+
+        document.Servers = [
+                new OpenApiServer
+            {
+                Url = builder.Configuration["ServerRunUrl"]
+            }
+            ];
+
+        return Task.CompletedTask;
+    });
+});
+
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
@@ -85,6 +125,7 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = $"/{dir}"
 });
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

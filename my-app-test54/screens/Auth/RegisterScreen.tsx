@@ -15,17 +15,18 @@ import {router} from "expo-router";
 import {useRegisterMutation} from "@/service/AuthService";
 import {useDispatch} from "react-redux";
 import {loginSuccess} from "@/store/reducers/AuthSlice";
+import {IRegisterModel} from "@/models/IRegisterModel";
 
-type RegisterFormData = {
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-    imageFile: any | null;
-};
+// type RegisterFormData = {
+//     firstName: string;
+//     lastName: string;
+//     email: string;
+//     password: string;
+//     imageFile: any | null;
+// };
 
 export default function RegisterScreen() {
-    const {control, handleSubmit, setValue, watch} = useForm<RegisterFormData>();
+    const {control, handleSubmit, setValue, watch} = useForm<IRegisterModel>();
     const [registerUser, {isLoading}] = useRegisterMutation();
     const dispatch = useDispatch();
 
@@ -57,14 +58,18 @@ export default function RegisterScreen() {
         }
     };
 
-    const onSubmit = async (data: RegisterFormData) => {
+    const onSubmit = async (data: IRegisterModel) => {
         // console.log("Form data:", data);
         try {
+            // const model : IRegisterModel = {
+            //     ...data,
+            //     imageFile:{...data.imageFile}
+            // }
             const response = await registerUser(data).unwrap();
             const token = response.token;
             dispatch(loginSuccess(token));
             await SecureStore.setItemAsync("accessToken", token);
-            router.replace("/(tabs)/explore");
+            router.replace("/(tabs)");
 
         } catch (e) {
             console.log("Register error:", e);

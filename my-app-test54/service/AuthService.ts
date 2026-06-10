@@ -2,45 +2,38 @@ import {createApi} from "@reduxjs/toolkit/query/react";
 import {fetchBaseQuery} from "@reduxjs/toolkit/query";
 import { BASE_URL } from "@/api";
 // import {serialize} from "object-to-formdata";
+
 import type ILoginModel from "../models/ILoginModel.ts";
 import {serialize} from "object-to-formdata";
 import {IRegisterModel} from "@/models/IRegisterModel";
+import IMeModel from "@/models/IMeModel";
+import * as SecureStore from "expo-secure-store";
 
 
 export const authService = createApi({
     reducerPath: 'authApi',
     baseQuery: fetchBaseQuery({
         baseUrl: `${BASE_URL}/Account/`,
-        prepareHeaders: (headers) => {
-            headers.set('Content-Type', 'application/json');
+        prepareHeaders: async (headers) => {
+            const token = await SecureStore.getItemAsync("accessToken");
+            if (token) {
+                headers.set("Authorization", `Bearer ${token}`);
+            }
             return headers;
         },
     }),
     tagTypes: ['Auth'],
     endpoints: (build) => ({
-        register: build.mutation<any, IRegisterModel>({
-            query: (model) => {
-                const formData = new FormData();
-
-                formData.append("FirstName", model.firstName);
-                formData.append("LastName", model.lastName);
-                formData.append("Email", model.email);
-                formData.append("Password", model.password);
-
-                if (model.imageFile) {
-                    formData.append("ImageFile", {
-                        uri: model.imageFile.uri,
-                        name: model.imageFile.name,
-                        type: model.imageFile.type,
-                    } as any);
-                }
-
+        register: build.mutation<{token : string}, IRegisterModel>({
+            query: (model)=>{
+                const formData = serialize(model)
                 return {
-                    url: "register",
+                    url: "Register",
                     method: "POST",
                     body: formData,
-                };
+                }
             },
+            invalidatesTags: ["Auth"]
         }),
         login: build.mutation<{token : string}, ILoginModel>({
             query: (model)=>{
@@ -52,7 +45,16 @@ export const authService = createApi({
                 }
             }
         }),
+        me: build.query<IMeModel, void>({
+            query: () => {
+                return{
+                    url: "me",
+                    method: "GET",
+                }
+            }
+        })
+
     })
 })
 
-export const { useRegisterMutation, useLoginMutation, } = authService;
+export const { useRegisterMutation, useLoginMutation, useMeQuery } = authService;

@@ -17,6 +17,16 @@
   },
   {
     "ContainingType": "WebApiReactNative.Controllers.AccountController",
+    "Method": "Me",
+    "RelativePath": "api/Account/Me",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebApiReactNative.Controllers.AccountController",
     "Method": "Register",
     "RelativePath": "api/Account/Register",
     "HttpMethod": "POST",

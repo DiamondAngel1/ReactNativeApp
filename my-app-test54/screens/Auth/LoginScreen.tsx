@@ -1,7 +1,7 @@
 import { View, Text, TextInput, Pressable } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import {useRouter} from "expo-router";
-import {authService} from "@/service/AuthService";
+import {authService, useLoginMutation} from "@/service/AuthService";
 import {loginSuccess} from "@/store/reducers/AuthSlice";
 import {useAppDispatch} from "@/hooks/redux";
 import {useState} from "react";
@@ -11,7 +11,7 @@ import * as SecureStore from 'expo-secure-store';
 
 export default function LoginScreen() {
     const { control, handleSubmit } = useForm<ILoginModel>();
-    const [login, { isLoading }] = authService.useLoginMutation();
+    const [login, { isLoading }] = useLoginMutation();
     const [serverError, setServerError] = useState<string | null>(null);
     const dispatch = useAppDispatch();
     const router = useRouter();
@@ -28,7 +28,7 @@ export default function LoginScreen() {
                 // 2. Hydrate your global Redux state
                 dispatch(loginSuccess(result.token));
                 await SecureStore.setItemAsync('accessToken', result.token);
-                router.push("/explore");
+                router.replace("/(tabs)");
             }
         }
         catch (err: any) {

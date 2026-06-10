@@ -1,6 +1,8 @@
 import {createSlice, type PayloadAction} from "@reduxjs/toolkit";
 import { jwtDecode } from "jwt-decode";
 import type IUser from "../../models/IUser.ts";
+import { authService } from "@/service/AuthService";
+import * as SecureStore from "expo-secure-store";
 // Import your API service
 
 const getUserFromToken = (token: string): IUser | null => {
@@ -43,4 +45,9 @@ const authSlice = createSlice({
 
 // This export will now work perfectly and fix your SyntaxError
 export const { loginSuccess, logout } = authSlice.actions;
+export const performLogout = () => async (dispatch: any) => {
+    await SecureStore.deleteItemAsync("accessToken");
+    dispatch(logout());
+    dispatch(authService.util.resetApiState()); // очищає кеш запитів
+};
 export default authSlice.reducer;
