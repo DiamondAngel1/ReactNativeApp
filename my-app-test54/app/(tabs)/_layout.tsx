@@ -34,7 +34,7 @@ export default function TabLayout() {
             name="chat"
             options={{
                 title: 'Chat',
-                tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+                tabBarIcon: ({ color }) => <IconSymbol size={28} name="message.badge.fill" color={color} />,
             }}
         />
     </Tabs>
