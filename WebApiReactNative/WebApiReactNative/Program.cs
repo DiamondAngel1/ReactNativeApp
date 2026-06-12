@@ -8,6 +8,7 @@ using Microsoft.OpenApi;
 using WebApiReactNative;
 using WebApiReactNative.Data;
 using WebApiReactNative.Entities.Identity;
+using WebApiReactNative.Hubs;
 using WebApiReactNative.Interfaces;
 using WebApiReactNative.Mapper;
 using WebApiReactNative.Services;
@@ -19,6 +20,19 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddSingleton<UserMapper>();
+
+// CORS
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials()
+            .SetIsOriginAllowed(_ => true);
+    });
+});
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
@@ -100,13 +114,18 @@ builder.Services.AddOpenApi(options =>
 
 
 builder.Services.AddControllers();
+
+builder.Services.AddSignalR();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 
 var app = builder.Build();
 
+app.UseCors();
 // Configure the HTTP request pipeline.
 
 app.MapOpenApi();
+
+app.MapHub<ChatHub>("/chat");
 
 app.UseSwaggerUI(options =>
 {

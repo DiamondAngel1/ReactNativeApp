@@ -1,11 +1,12 @@
 import {TouchableOpacity, Text, Image} from "react-native";
+import {FC} from "react";
 
 interface ImagePickerButtonProps {
     imageUri: string | null;
     onPress: () => void;
 }
 
-export const ImagePickerButton: React.FC<ImagePickerButtonProps> =
+export const ImagePickerButton: FC<ImagePickerButtonProps> =
     ({imageUri, onPress}) => {
         return (
             <TouchableOpacity

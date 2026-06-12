@@ -9,6 +9,7 @@ import {store} from "@/store";
 import * as SecureStore from 'expo-secure-store';
 import {loginSuccess} from "@/store/reducers/AuthSlice";
 import {useEffect, useState} from "react";
+import {SafeAreaProvider} from "react-native-safe-area-context";
 
 export default function RootLayout() {
 
@@ -41,7 +42,7 @@ export default function RootLayout() {
     }
 
     return (
-        <>
+        <SafeAreaProvider>
             <Provider store={store}>
                 <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
                     <Stack>
@@ -54,7 +55,7 @@ export default function RootLayout() {
                 </ThemeProvider>
             </Provider>
 
-        </>
+        </SafeAreaProvider>
 
     );
 }
