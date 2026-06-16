@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WebApiReactNative")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b112e1bd972df2d25f29674f4f5a7454ac49a792")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3de4d2ba369384c56f09873f74fdf838df8dbc13")]
 [assembly: System.Reflection.AssemblyProductAttribute("WebApiReactNative")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WebApiReactNative")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

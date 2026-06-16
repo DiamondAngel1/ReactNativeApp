@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebApiReactNative.Constants;
 using WebApiReactNative.Data;
+using WebApiReactNative.Entities.Chat;
 using WebApiReactNative.Entities.Identity;
 using WebApiReactNative.Interfaces;
 using WebApiReactNative.Mapper;
@@ -86,7 +87,17 @@ public static class DbSeeder
                 Console.WriteLine("Not Found File Users.json");
             }
         }
+        if (!context.ChatTypes.Any())
+        {
+            var types = ChatTypes.All
+                .Select(x => new ChatTypeEntity
+                {
+                    TypeName = x
+                }).ToList();
 
+            context.ChatTypes.AddRange(types);
+            await context.SaveChangesAsync();
+        }
 
     }
 }
