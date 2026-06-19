@@ -47,8 +47,8 @@ namespace WebApiReactNative.Controllers
             return Ok(chats);
         }
 
-        [HttpGet("{chatId}/messages")]
-        public async Task<IActionResult> GetChatMessages(long chatId)
+        [HttpGet("{chatId:long}/messages")]
+        public async Task<IActionResult> GetChatMessages([FromRoute] long chatId)
         {
             var messages = await chatService.GetChatMessagesAsync(chatId);
             return Ok(messages);

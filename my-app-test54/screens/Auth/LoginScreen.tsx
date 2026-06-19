@@ -28,7 +28,7 @@ export default function LoginScreen() {
                 // 2. Hydrate your global Redux state
                 dispatch(loginSuccess(result.token));
                 await SecureStore.setItemAsync('accessToken', result.token);
-                router.replace("/(tabs)");
+                router.replace("/chat/home");
             }
         }
         catch (err: any) {

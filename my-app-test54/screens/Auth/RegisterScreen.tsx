@@ -69,7 +69,7 @@ export default function RegisterScreen() {
             const token = response.token;
             dispatch(loginSuccess(token));
             await SecureStore.setItemAsync("accessToken", token);
-            router.replace("/(tabs)");
+            router.replace("/chat/home");
 
         } catch (e) {
             console.log("Register error:", e);

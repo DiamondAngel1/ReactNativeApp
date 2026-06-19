@@ -1,6 +1,6 @@
 import {createApi} from "@reduxjs/toolkit/query/react";
-import {fetchBaseQuery} from "@reduxjs/toolkit/query";
-import { BASE_URL } from "@/api";
+import {BaseQueryArg, fetchBaseQuery} from "@reduxjs/toolkit/query";
+import { BASE_URL_API } from "@/api";
 // import {serialize} from "object-to-formdata";
 
 import type ILoginModel from "../models/ILoginModel.ts";
@@ -8,12 +8,14 @@ import {serialize} from "object-to-formdata";
 import {IRegisterModel} from "@/models/IRegisterModel";
 import IMeModel from "@/models/IMeModel";
 import * as SecureStore from "expo-secure-store";
+import {IAuthResponse} from "@/models/IAuthResponse";
+import {IProfileEdit} from "@/models/IProfileEdit";
 
 
 export const authService = createApi({
     reducerPath: 'authApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: `${BASE_URL}/Account/`,
+        baseUrl: `${BASE_URL_API}/Account/`,
         prepareHeaders: async (headers) => {
             const token = await SecureStore.getItemAsync("accessToken");
             if (token) {
@@ -52,9 +54,20 @@ export const authService = createApi({
                     method: "GET",
                 }
             }
-        })
+        }),
+        editProfile: build.mutation<IAuthResponse, IProfileEdit>({
+            query: (credentials) => {
+                const formData =  serialize(credentials);
 
+                return {
+                    url: 'EditProfile',
+                    method: 'PUT',
+                    body: formData
+                };
+            },
+
+        })
     })
 })
 
-export const { useRegisterMutation, useLoginMutation, useMeQuery } = authService;
+export const { useRegisterMutation, useLoginMutation, useEditProfileMutation, useMeQuery } = authService;
