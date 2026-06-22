@@ -16,12 +16,15 @@ import {useEditProfileMutation} from "@/service/AuthService";
 import {useForm} from "@/hooks/useForm";
 import {router} from "expo-router";
 import {IProfileEdit} from "@/models/IProfileEdit";
-import {useAppSelector} from "@/store";
+import {useAppDispatch, useAppSelector} from "@/store";
 import {useEffect} from "react";
 import {SafeAreaView} from "react-native-safe-area-context";
 import {BASE_URL_IMAGES} from "@/api";
+import {loginSuccess} from "@/store/reducers/AuthSlice";
+import * as SecureStore from "expo-secure-store";
 
 export default function EditProfileScreen() {
+    const dispatch = useAppDispatch();
     const {user} = useAppSelector(state => state.auth);
 
     const {form, setForm, onChange} = useForm<IProfileEdit>({
@@ -61,7 +64,9 @@ export default function EditProfileScreen() {
     const onSubmit = async () => {
 
         try {
-            const res = await edit(form).unwrap();
+            const result = await edit(form).unwrap();
+            dispatch(loginSuccess(result.token));
+            await SecureStore.setItemAsync('accessToken',  result.token);
             router.replace("/chat/home")
         } catch (e) {
             console.log("Register error:", e);

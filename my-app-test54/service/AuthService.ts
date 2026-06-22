@@ -1,8 +1,6 @@
 import {createApi} from "@reduxjs/toolkit/query/react";
-import {BaseQueryArg, fetchBaseQuery} from "@reduxjs/toolkit/query";
+import {fetchBaseQuery} from "@reduxjs/toolkit/query";
 import { BASE_URL_API } from "@/api";
-// import {serialize} from "object-to-formdata";
-
 import type ILoginModel from "../models/ILoginModel.ts";
 import {serialize} from "object-to-formdata";
 import {IRegisterModel} from "@/models/IRegisterModel";

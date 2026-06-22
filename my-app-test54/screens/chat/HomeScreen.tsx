@@ -54,7 +54,7 @@ export default function HomeScreen() {
                         <View className="h-[2px] w-12 bg-emerald-500 my-6 rounded-full"/>
                     </View>
 
-                    <View className="items-center my-10">
+                    <View className="items-center my-8">
                         <View className="relative">
 
                             <View className="w-44 h-44 rounded-full bg-emerald-500/10 items-center justify-center overflow-hidden">
