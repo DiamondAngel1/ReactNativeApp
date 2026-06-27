@@ -1,4 +1,5 @@
 ﻿using MailKit.Net.Smtp;
+using Microsoft.Extensions.Options;
 using MimeKit;
 using WebApiReactNative.Interfaces;
 using WebApiReactNative.Smtp;
@@ -7,6 +8,12 @@ namespace WebApiReactNative.Services
 {
     public class SmtpService : ISmtpService
     {
+        private readonly EmailConfiguration _config;
+
+        public SmtpService(IOptions<EmailConfiguration> options)
+        {
+            _config = options.Value;
+        }
         public async Task<bool> SendEmailAsync(MyEmailMessage message)
         {
             var body = new TextPart("html")
@@ -17,7 +24,7 @@ namespace WebApiReactNative.Services
             multipart.Add(body);
 
             var emailMessage = new MimeMessage();
-            emailMessage.From.Add(new MailboxAddress("ChatSystem", EmailConfiguration.From));
+            emailMessage.From.Add(new MailboxAddress("ChatSystem", _config.From));
             emailMessage.To.Add(new MailboxAddress(message.To, message.To));
             emailMessage.Subject = message.Subject;
 
@@ -26,8 +33,8 @@ namespace WebApiReactNative.Services
             using var client = new SmtpClient();
             try
             {
-                await client.ConnectAsync(EmailConfiguration.SmtpServer, EmailConfiguration.SmtpPort, true);
-                await client.AuthenticateAsync(EmailConfiguration.UserName, EmailConfiguration.Password);
+                await client.ConnectAsync(_config.SmtpServer, _config.SmtpPort, true);
+                await client.AuthenticateAsync(_config.UserName, _config.Password);
                 await client.SendAsync(emailMessage);
                 await client.DisconnectAsync(true);
 
@@ -36,8 +43,9 @@ namespace WebApiReactNative.Services
             catch (Exception ex)
             {
                 Console.WriteLine("Error send EMAIL {0}", ex.Message);
+                throw new Exception("Error send EMAIL " + ex.Message);
             }
-            return false;
+            //return false;
         }
     }
 }

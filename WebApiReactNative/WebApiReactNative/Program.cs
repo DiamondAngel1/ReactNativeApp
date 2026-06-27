@@ -13,6 +13,7 @@ using WebApiReactNative.Hubs;
 using WebApiReactNative.Interfaces;
 using WebApiReactNative.Mapper;
 using WebApiReactNative.Services;
+using WebApiReactNative.Smtp;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,10 @@ builder.Services.AddSingleton<UserMapper>();
 builder.Services.AddScoped<IIdentityService, IdentityService>();
 builder.Services.AddSingleton<ChatMapper>();
 builder.Services.AddScoped<IChatService, ChatService>();
+builder.Services.AddScoped<ISmtpService, SmtpService>();
+
+builder.Services.Configure<EmailConfiguration>(
+    builder.Configuration.GetSection("EmailConfiguration"));
 
 // CORS
 builder.Services.AddCors(options =>
